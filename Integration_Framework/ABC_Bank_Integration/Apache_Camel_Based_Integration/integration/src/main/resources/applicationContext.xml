@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring
+       http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com"/>
+
+    <bean id="accountControllerResponse" class="com.dxsys.integration.response.AccountController" />
+    <bean id="transactionControllerResponse" class="com.dxsys.integration.response.TransactionController" />
+
+    <bean id="accountControllerRequest" class="com.dxsys.integration.request.AccountController" />
+    <bean id="transactionControllerRequest" class="com.dxsys.integration.request.TransactionController" />
+
+    <camelContext xmlns="http://camel.apache.org/schema/spring">
+
+
+        <route>
+            <!-- incoming requests from the servlet is routed -->
+            <from uri="servlet:///test"/>
+            <transform>
+                <simple>Version 1.</simple>
+            </transform>
+        </route>
+
+        <route>
+            <!-- incoming requests from the servlet is routed -->
+            <from uri="servlet:///account"/>
+            <process ref="accountControllerRequest"/>
+            <camel:to uri="direct:/v1/account" />
+            <process ref="accountControllerResponse"/>
+
+        </route>
+
+        <route>
+            <!-- incoming requests from the servlet is routed -->
+            <from uri="servlet:///transaction"/>
+            <process ref="transactionControllerRequest"/>
+            <camel:to uri="direct:/v1/transaction" />
+            <process ref="transactionControllerResponse"/>
+        </route>
+
+        <camel:route streamCache="true">
+            <camel:from uri="direct:/v1/account" />
+            <camel:removeHeaders pattern="CamelHttp*"
+                                 excludePattern="CamelHttpMethod" />
+            <camel:setHeader headerName="HttpMethod">
+                <camel:constant>POST</camel:constant>
+            </camel:setHeader>
+            <camel:setHeader headerName="CamelHttpMethod">
+                <camel:constant>POST</camel:constant>
+            </camel:setHeader>
+            <camel:setHeader headerName="Content-Type">
+                <camel:constant>application/json</camel:constant>
+            </camel:setHeader>
+            <camel:setHeader headerName="CamelHttpQuery">
+                <camel:simple></camel:simple>
+            </camel:setHeader>
+             <camel:setBody>
+                <camel:simple>{"accountNumber":"12345"}</camel:simple>
+            </camel:setBody>
+            <camel:to uri="http://localhost:8080/account" />
+            </camel:route>
+
+        <camel:route streamCache="true">
+            <camel:from uri="direct:/v1/transaction" />
+            <camel:removeHeaders pattern="CamelHttp*"
+                                 excludePattern="CamelHttpMethod" />
+
+
+            <camel:setHeader headerName="HttpMethod">
+                <camel:constant>POST</camel:constant>
+            </camel:setHeader>
+            <camel:setHeader headerName="CamelHttpMethod">
+                <camel:constant>POST</camel:constant>
+            </camel:setHeader>
+            <camel:setHeader headerName="Content-Type">
+                <camel:constant>application/json</camel:constant>
+            </camel:setHeader>
+            <camel:setHeader headerName="CamelHttpQuery">
+                <camel:simple></camel:simple>
+            </camel:setHeader>
+            <camel:setBody>
+                <camel:simple>{
+                    "userID": "12345",
+                    "firstName": "Sourabh",
+                    "lastName": "Sethi"
+                    }</camel:simple>
+            </camel:setBody>
+
+            <camel:to uri="http://localhost:8080/transaction" />
+
+
+
+        </camel:route>
+
+
+    </camelContext>
+
+</beans>

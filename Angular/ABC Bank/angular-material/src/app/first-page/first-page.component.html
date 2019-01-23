@@ -1,0 +1,38 @@
+<mat-card >
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Account</mat-card-title>
+    <mat-card-subtitle>Account Summary</mat-card-subtitle>
+  </mat-card-header>
+ <mat-card-content>
+  <mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
+  
+    <ng-container matColumnDef="accountNumber">
+      <mat-header-cell *matHeaderCellDef> Account Number </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.accountNumber}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="balanceAmount">
+      <mat-header-cell *matHeaderCellDef>Balance Amount</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.balanceAmount}} </mat-cell>
+    </ng-container>
+    
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    
+    <mat-row *matRowDef="let row; columns: displayedColumns" 
+         (click)="onRowClicked(row)">
+    </mat-row>
+    
+</mat-table>
+
+  </mat-card-content>
+
+ 
+  
+</mat-card>
+
+<mat-card>
+<mat-card-content>
+  <app-second-page></app-second-page>
+</mat-card-content>
+</mat-card>

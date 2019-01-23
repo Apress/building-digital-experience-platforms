@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.dxsys.integration</groupId>
+  <artifactId>integration</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1</version>
+
+  <name>A Camel Spring Route</name>
+
+    <properties>
+        <parent.dir>${project.basedir}</parent.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <work.dir>${project.build.directory}/${project.build.finalName}</work.dir>
+        <restlet-version>2.0.1</restlet-version>
+        <!-- Maven timestamp settings -->
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+        <configuration.dir>${project.basedir}/configuration</configuration.dir>
+        <jetty.xml>${configuration.dir}/jetty.xml</jetty.xml>
+
+        <!-- Abstract values that must be defined in each sub module -->
+    </properties>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+            <version>3.1.4.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>3.1.4.RELEASE</version>
+        </dependency>
+
+
+
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
+            <version>2.10.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring</artifactId>
+            <version>2.10.4</version>
+        </dependency>
+        <!-- logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-mail</artifactId>
+            <version>2.10.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet.ext.spring</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-xmljson</artifactId>
+            <version>2.10.4</version>
+            <!-- Use the same version as camel-core, but remember that this component is only available from 2.10 onwards -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-csv</artifactId>
+            <version>2.10.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-bindy</artifactId>
+            <version>2.10.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-servlet</artifactId>
+            <version>2.10.4</version>
+
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.supercsv</groupId>
+            <artifactId>super-csv</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <!-- And also XOM must be included. XOM cannot be included by default due to an incompatible
+        license with ASF; so add this manually -->
+        <dependency>
+            <groupId>xom</groupId>
+            <artifactId>xom</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-fop</artifactId>
+            <version>2.10.4</version>
+            <!-- use the same version as your Camel core version -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>3.1.4.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-http</artifactId>
+            <version>2.10.4</version>
+            <!-- use the same version as your Camel core version -->
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>3.1.4.RELEASE</version>
+        </dependency>
+
+
+        <!-- testing -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-test-spring</artifactId>
+            <version>2.10.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.7</version>
+        </dependency>
+
+    </dependencies>
+
+
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>7.6.8.v20121106</version>
+                <configuration>
+                    <jettyConfig>${project.basedir}/configuration/jetty.xml</jettyConfig>
+                    <stopKey>STOP</stopKey>
+                    <stopPort>9991</stopPort>
+
+                    <scanIntervalSeconds>5</scanIntervalSeconds>
+                    <!-- <contextXml>${project.basedir}/src/test/resources/jetty-context.xml</contextXml> -->
+                    <webAppConfig>
+                        <contextPath>/${project.artifactId}</contextPath>
+                    </webAppConfig>
+                </configuration>
+
+
+            </plugin>
+
+            <!-- Default Jetty plugin which is valid for all Web Applications -->
+            <!-- <plugin>
+                 <groupId>org.eclipse.jetty</groupId>
+                 <artifactId>jetty-maven-plugin</artifactId>
+                 <configuration>
+                     <stopKey>STOP</stopKey>
+                     <stopPort>9999</stopPort>
+                     <scanIntervalSeconds>5</scanIntervalSeconds>
+                     <jettyXml>${jetty.xml}</jettyXml>
+                     <webApp>
+                         <contextPath>/${project.artifactId}</contextPath>
+                          <defaultsDescriptor>${configuration.dir}/webdefaults.xml</defaultsDescriptor>
+                         <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+                         <aliasCheck implementation="org.eclipse.jetty.server.handler.AllowSymLinkAliasChecker" />
+                         <resourceBases>
+                            <resourceBase>${project.basedir}/src/main/webapp</resourceBase>
+                             <resourceBase>${work.dir}</resourceBase>
+                         </resourceBases>
+                     </webApp>
+                 </configuration>
+              <dependencies>
+                     <dependency>
+                         <groupId>com.mchange</groupId>
+                         <artifactId>c3p0</artifactId>
+                         <version>0.9.2.1</version>
+                         <scope>runtime</scope>
+                     </dependency>
+                     <dependency>
+                         <groupId>com.h2database</groupId>
+                         <artifactId>h2</artifactId>
+                         <version>1.3.154</version>
+                         <scope>runtime</scope>
+                     </dependency>
+                 </dependencies>
+             </plugin> -->
+
+
+
+            <!-- <plugin>
+              <groupId>org.eclipse.jetty</groupId>
+              <artifactId>jetty-maven-plugin</artifactId>
+             <version>${jetty.version}</version>
+                <configuration>
+                     <jettyConfig>${project.basedir}/configuration/jetty.xml</jettyConfig>
+                     <stopKey>STOP</stopKey>
+                     <stopPort>9999</stopPort>
+                     <scanIntervalSeconds>5</scanIntervalSeconds>
+                    <contextXml>${project.basedir}/src/test/resources/jetty-context.xml</contextXml>
+                     <webAppConfig>
+                         <contextPath>/${project.artifactId}</contextPath>
+                     </webAppConfig>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.27</version>
+                    </dependency>
+                </dependencies>
+            </plugin> -->
+
+
+
+            <!-- allows the route to be ran via 'mvn camel:run' -->
+            <plugin>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-maven-plugin</artifactId>
+                <version>2.11.1</version>
+            </plugin>
+        </plugins>
+    </build>
+
+  <repositories>
+        <repository>
+            <id>maven.restlet.org</id>
+            <name>maven.restlet.org</name>
+            <url>http://maven.restlet.org</url>
+        </repository>
+        <repository>
+            <id>maven2</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+    </repositories>
+
+</project>

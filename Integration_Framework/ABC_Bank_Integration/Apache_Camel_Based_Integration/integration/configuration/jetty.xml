@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_0.dtd">
+<Configure class="org.eclipse.jetty.server.Server" id="Server">
+
+    <New id="servicesiIntegration" class="org.eclipse.jetty.plus.jndi.EnvEntry">
+        <Arg>service/services-config</Arg>
+        <Arg type="java.lang.String">./configuration/service.properties</Arg>
+        <Arg type="boolean">false</Arg>
+    </New>
+
+
+
+
+
+
+</Configure>

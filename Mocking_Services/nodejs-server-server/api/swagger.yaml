@@ -1,0 +1,123 @@
+---
+swagger: "2.0"
+info:
+  description: "ABC banking  API"
+  version: "1.0.0"
+  title: "ABC banking  API"
+host: "localhost:8080"
+basePath: "/"
+schemes:
+- "http"
+produces:
+- "application/json"
+paths:
+  /account:
+    post:
+      summary: "Get Accounts"
+      operationId: "accountPOST"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "account"
+        description: "Return account holded by User."
+        required: false
+        schema:
+          $ref: "#/definitions/account"
+      responses:
+        200:
+          description: "A account object"
+          schema:
+            $ref: "#/definitions/ArrayOfAccountandBalance"
+          examples:
+            application/json:
+              List:
+              - accountNumber: 10001
+                balanceAmount: 400
+              - accountNumber: 10098
+                balanceAmount: 200
+              - accountNumber: 12346
+                balanceAmount: 200
+      x-swagger-router-controller: "Default"
+  /transaction:
+    post:
+      summary: "Get transaction"
+      operationId: "transactionPOST"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "account"
+        description: "Return transaction holded by account."
+        required: false
+        schema:
+          $ref: "#/definitions/account_1"
+      responses:
+        200:
+          description: "A account object"
+          schema:
+            $ref: "#/definitions/ArrayOfTransaction"
+          examples:
+            application/json:
+              List:
+              - accountNumber: 10001
+                transactionId: 1233121341
+                transactionAmount: 100
+                balanceAmount: 200
+              - accountNumber: 10001
+                transactionId: 123223222411
+                transactionAmount: 100
+                balanceAmount: 200
+              - accountNumber: 10001
+                transactionId: 123382211
+                transactionAmount: 1200
+                balanceAmount: 400
+      x-swagger-router-controller: "Default"
+definitions:
+  ArrayOfAccountandBalance:
+    type: "object"
+    properties:
+      accountNumner:
+        type: "integer"
+        example: 10001
+        description: "The user accountNumner."
+      balanceAmount:
+        type: "string"
+        example: "200"
+        description: "The user balanceAmount with respect to account number."
+  ArrayOfTransaction:
+    type: "object"
+    properties:
+      accountNumber:
+        type: "integer"
+        example: 10001
+        description: "The user accountNumber."
+      transactionId:
+        type: "string"
+        example: "200"
+        description: "The user transactionId with respect to account number."
+      transactionAmount:
+        type: "string"
+        example: "200"
+        description: "The user transactionAmount with respect to account number and\
+          \ transactionId."
+      balanceAmount:
+        type: "string"
+        example: "200"
+        description: "The user balanceAmount with respect to account number."
+  account:
+    type: "object"
+    properties:
+      accountNumber:
+        type: "string"
+  account_1:
+    type: "object"
+    required:
+    - "userID"
+    properties:
+      userID:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
